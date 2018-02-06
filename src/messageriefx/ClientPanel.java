@@ -16,6 +16,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import server.*;
+import client.*;
+import java.util.List;
 /**
  *
  * @author aelbaz
@@ -85,7 +88,7 @@ public class ClientPanel extends Parent {
         this.textMembers = new Text("Connectés : ");
         this.textMembers.setLayoutX(470);
         this.textMembers.setLayoutY(40);
-
+        
         this.getChildren().add(receivedText);
         this.getChildren().add(scrollReceivedText);
         this.getChildren().add(textToSend);

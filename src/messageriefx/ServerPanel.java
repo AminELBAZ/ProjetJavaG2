@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 
 import server.*;
 import client.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,11 +30,22 @@ public class ServerPanel extends Parent {
     private Text erreur;
     private TextArea port;
     private Button valid;
+    private Text pseudo;
+    private TextArea inputPseudo;
 
     public ServerPanel(Stage portStage, Stage stage) {
         this.titre = new Text("Veuillez saisir un numéro de port entre 1024 et 49151 :");
         this.titre.setLayoutX(150);
         this.titre.setLayoutY(200);
+
+        this.pseudo = new Text("Veuillez saisir un Pseudo:");
+        this.pseudo.setLayoutX(150);
+        this.pseudo.setLayoutY(50);
+
+        this.inputPseudo = new TextArea();
+        this.inputPseudo.setLayoutX(280);
+        this.inputPseudo.setLayoutY(100);
+        this.inputPseudo.setPrefSize(60, 50);
 
         this.port = new TextArea();
         this.port.setLayoutX(280);
@@ -50,36 +64,54 @@ public class ServerPanel extends Parent {
         this.valid.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                Server server = MainServer.getInstance();
+                String adresseServer = "127.0.0.1";
+                // Si il y a une instance du serveur
+                if (server == null) {
+                    // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
+                    if (estUnEntierValide(port.getText())) {
+                        portStage.close();
+                        //Définition du tableau d'arguments server
+                        String[] args = new String[1];
+                        args[0] = port.getText();
+                        MainServer.main(args);
+                        System.err.println("server ok");
 
-                // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
-                if (estUnEntierValide(port.getText())) {
-                    portStage.close();
-                    //Définition du tableau d'arguments
-                    String[] args = new String[1];
-                    args[0] = port.getText();
-                    MainServer.main(args);
-                    stage.show();
-
-                    // Sinon on affiche un message d'erreur
+                        //Définition du tableau d'arguments client
+                        String[] argsClient = new String[3];
+                        argsClient[0] = adresseServer;
+                        argsClient[1] = port.getText();
+                        argsClient[2] = inputPseudo.getText();
+                        //Lancement du client
+                        MainClient.main(argsClient);
+                        System.err.println("client ok");
+                        stage.show();
+                        // Sinon on affiche un message d'erreur
+                    } else {
+                        erreur.setVisible(true);
+                    }
                 } else {
-                    erreur.setVisible(true);
+                    System.err.println("not ok");
                     //Définition du tableau d'arguments
                     String[] args = new String[3];
-                    args[0] = "127.0.0.0";
-                    args[1] = String.valueOf(server.getPort());
-                    args[2] = inputPseudo;
-                    Client client = MainClient.main(args);
-                    ConnectedClient newClient = ConnectedClient(server, client.getSocket());
-                    server.addClient();
+                    args[0] = adresseServer;
+                    args[1] = port.getText();
+                    args[2] = inputPseudo.getText();
+                    //Lancement du client
+                    MainClient.main(args);
+
                     stage.show();
 
                 }
             }
-        });
+        }
+        );
         this.getChildren().add(this.erreur);
+        this.getChildren().add(this.pseudo);
         this.getChildren().add(this.titre);
         this.getChildren().add(this.port);
         this.getChildren().add(this.valid);
+        this.getChildren().add(this.inputPseudo);
     }
 
     /**
