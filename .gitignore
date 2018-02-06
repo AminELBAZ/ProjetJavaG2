@@ -1,5 +1,5 @@
 /dist/
 /build/
 /nbproject/private/
-dist\
-build\
+dist*
+build*
