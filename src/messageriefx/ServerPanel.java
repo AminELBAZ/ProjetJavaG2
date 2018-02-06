@@ -46,6 +46,11 @@ public class ServerPanel extends Parent {
         this.erreur.setFill(Color.RED);
         this.erreur.setVisible(false);
         
+        this.pseudo= new Text("Votre pseudo : ");
+        this.pseudo.setLayoutX(280);
+        this.pseudo.setLayoutY(50);
+   
+       
         this.inputPseudo= new TextArea();
         this.inputPseudo.setLayoutX(280);
         this.inputPseudo.setLayoutY(100);
@@ -82,7 +87,7 @@ public class ServerPanel extends Parent {
     }
 
     /**
-     * Fonction qui vérifie que la chaine passé est un entier compris entre 1024
+     * Fonction qui vérifie que la chaine passée est un entier compris entre 1024
      * et 49151
      *
      * @param chaine
