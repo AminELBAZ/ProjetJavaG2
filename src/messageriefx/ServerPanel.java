@@ -24,16 +24,28 @@ public class ServerPanel extends Parent {
     private Text titre;
     private TextArea port;
     private Button valid;
+    private Text pseudo;
+    private TextArea inputPseudo;
+    
 
     public ServerPanel(Stage portStage, Stage stage) {
         this.titre = new Text("Veuillez saisir un numéro de port entre 1024 et 49151 :");
         this.titre.setLayoutX(150);
         this.titre.setLayoutY(200);
-
+        
         this.port = new TextArea();
         this.port.setLayoutX(280);
         this.port.setLayoutY(250);
         this.port.setPrefSize(60, 50);
+        
+        this.pseudo = new Text("Entrez votre pseudo : ");
+        this.pseudo.setLayoutX(150);
+        this.pseudo.setLayoutY(100);
+        
+        this.inputPseudo= new TextArea();
+        this.inputPseudo.setLayoutX(280);
+        this.inputPseudo.setLayoutY(100);
+        this.inputPseudo.setPrefSize(60, 50);
 
         this.valid = new Button("Valider");
         this.valid.setLayoutX(280);
@@ -53,6 +65,8 @@ public class ServerPanel extends Parent {
         this.getChildren().add(this.titre);
         this.getChildren().add(this.port);
         this.getChildren().add(this.valid);
+        this.getChildren().add(this.pseudo);
+        this.getChildren().add(this.inputPseudo);
     }
 
 }
