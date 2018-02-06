@@ -56,6 +56,12 @@ public class ServerPanel extends Parent {
         this.inputPseudo.setLayoutY(100);
         this.inputPseudo.setPrefSize(60, 50);
 
+        this.erreur = new Text("Numéro de port invalide, vérifiez votre saisie.");
+        this.erreur.setLayoutX(150);
+        this.erreur.setLayoutY(240);
+        this.erreur.setFill(Color.RED);
+        this.erreur.setVisible(false);
+
         this.valid = new Button("Valider");
         this.valid.setLayoutX(280);
         this.valid.setLayoutY(310);
@@ -65,17 +71,17 @@ public class ServerPanel extends Parent {
                 
                 // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
                 if (estUnEntierValide(port.getText())) {
-                portStage.close();
-                //Définition du tableau d'arguments
-                String[] args = new String[1];
-                args[0] = port.getText();
-                MainServer.main(args);
-                stage.show();
+                    portStage.close();
+                    //Définition du tableau d'arguments
+                    String[] args = new String[1];
+                    args[0] = port.getText();
+                    MainServer.main(args);
+                    stage.show();
                     
                 // Sinon on affiche un message d'erreur
                 } else {
                     erreur.setVisible(true);
-            }
+                }
             }
         });
         this.getChildren().add(this.erreur);
@@ -106,5 +112,7 @@ public class ServerPanel extends Parent {
 
         return true;
     }
+
+
 
 }

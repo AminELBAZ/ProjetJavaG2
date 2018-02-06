@@ -27,7 +27,7 @@ public class MessagerieFX extends Application {
     public void start(Stage stage) throws Exception {
 
         Stage portStage = new Stage();
-
+        
         ServerPanel serverPanel = new ServerPanel(portStage,stage);
         Group portServer = new Group();
         portServer.getChildren().add(serverPanel);
