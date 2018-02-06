@@ -26,7 +26,8 @@ public class MainClient {
             } else {
                 String address = args[0];
                 Integer port = new Integer(args[1]);
-                Client c = new Client(address, port);
+                String login = args[2];
+                Client c = new Client(address, port,login);
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -39,6 +40,7 @@ public class MainClient {
         System.out.println("java client.Client <address> <port>");
         System.out.println("\t<address>: server's ip address");
         System.out.println("\t<port>: server's port");
+        System.out.println("\t<login>: client login");
     }
 
 }

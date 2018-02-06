@@ -28,13 +28,14 @@ public class MessagerieFX extends Application {
 
         Stage portStage = new Stage();
 
-        ServerPanel serverPanel = new ServerPanel(portStage,stage);
+        ServerPanel serverPanel = new ServerPanel(portStage, stage);
         Group portServer = new Group();
         portServer.getChildren().add(serverPanel);
         Scene scenePort = new Scene(portServer, 600, 500);
-        portStage.setTitle("Choix du port");
+        portStage.setTitle("Connexion");
         portStage.setScene(scenePort);
         portStage.show();
+        
 
         ClientPanel clientPanel = new ClientPanel();
         Group root = new Group();
@@ -42,6 +43,8 @@ public class MessagerieFX extends Application {
         Scene scene = new Scene(root, 600, 500);
         stage.setTitle("Mon Chat");
         stage.setScene(scene);
+        
+
     }
 
     /**

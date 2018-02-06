@@ -9,6 +9,8 @@ import java.io.IOException;
  *
  */
 public class MainServer {
+    
+    static Server server = null;
 
     /**
      * creates a new server
@@ -21,12 +23,24 @@ public class MainServer {
                 printUsage();
             } else {
                 Integer port = new Integer(args[0]);
-                Server server = new Server(port);
+                server = new Server(port);
             }
         } catch (IOException e1) {
             e1.printStackTrace();
         }
     }
+    /**
+     * Retourne L'instance du serveur, si il existe
+     * 
+     * @return 
+     */
+    public static Server getInstance(){
+        if(server == null){
+            return null;
+        }
+        return server;
+    }
+    
     private static void printUsage() {
         System.out.println("java server.Server <port>");
         System.out.println("\t<port>: server's port");

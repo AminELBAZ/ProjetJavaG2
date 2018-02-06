@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import server.*;
+import client.*;
 
 /**
  *
@@ -42,11 +43,25 @@ public class ServerPanel extends Parent {
             @Override
             public void handle(ActionEvent event) {
                 portStage.close();
-                //Définition du tableau d'arguments
-                String[] args = new String[1];
-                args[0] = port.getText();
-                MainServer.main(args);
-                stage.show();
+                Server server = MainServer.getInstance();
+                if (server == null) {
+                    //Définition du tableau d'arguments
+                    String[] args = new String[1];
+                    args[0] = port.getText();
+                    MainServer.main(args);
+                    stage.show();
+                } else {
+                    //Définition du tableau d'arguments
+                    String[] args = new String[3];
+                    args[0] = "127.0.0.0";
+                    args[1] = String.valueOf(server.getPort());
+                    args[2] = inputPseudo;
+                    Client client = MainClient.main(args);
+                    ConnectedClient newClient = ConnectedClient(server, client.getSocket());
+                    server.addClient();
+                    stage.show();
+
+                }
             }
         });
 

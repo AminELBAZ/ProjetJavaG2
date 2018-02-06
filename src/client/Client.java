@@ -18,14 +18,24 @@ import java.net.Socket;
 public class Client {
 
     private String address;
+    private String login;
     private int port;
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
 
-    public Client(String address, int port) throws IOException {
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public Client(String address, int port, String login) throws IOException {
         this.address = address;
         this.port = port;
+        this.login = login;
         this.socket = new Socket(this.address, this.port);
         this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
         this.out = new PrintWriter(this.socket.getOutputStream());
