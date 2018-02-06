@@ -40,7 +40,8 @@ public class Server {
     public void addClient(ConnectedClient newClient) {
         //Message d'information à tous les clients
         for (ConnectedClient client : clients) {
-            client.sendMessage("Le client " + newClient.getId() + " vient de se connecter");
+            client.sendMessage("Le client " + newClient.getLogin() + " vient de se connecter");
+            
         }
         this.clients.add(newClient);
     }

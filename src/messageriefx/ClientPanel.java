@@ -19,6 +19,7 @@ import javafx.scene.text.TextFlow;
 import server.*;
 import client.*;
 import java.util.List;
+
 /**
  *
  * @author aelbaz
@@ -34,7 +35,7 @@ public class ClientPanel extends Parent {
     private Text textMembers;
 
     public ClientPanel() {
-        
+
         this.receivedText = new TextFlow();
         this.receivedText.setPrefSize(400, 250);
 
@@ -85,10 +86,20 @@ public class ClientPanel extends Parent {
         this.connected.setPrefSize(100, 250);
         this.connected.setEditable(false);
 
+        //A tester pour mettre à jour les clients connectés
+        Server server = MainServer.getInstance();
+        if (server != null) {
+            System.out.println("server ok ok ok");
+            for (ConnectedClient client : server.getClients()) {
+                System.out.println(client.getLogin());
+                this.connected.setText(this.connected.getText() + "\n" + client.getLogin());
+            }
+        }
+
         this.textMembers = new Text("Connectés : ");
         this.textMembers.setLayoutX(470);
         this.textMembers.setLayoutY(40);
-        
+
         this.getChildren().add(receivedText);
         this.getChildren().add(scrollReceivedText);
         this.getChildren().add(textToSend);

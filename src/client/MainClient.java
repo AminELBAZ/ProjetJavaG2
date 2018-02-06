@@ -29,9 +29,9 @@ public class MainClient {
                 String address = args[0];
                 Integer port = new Integer(args[1]);
                 String login = args[2];
-                System.out.println(args[0]);
-                System.out.println(args[1]);
-                System.out.println(args[2]);
+//                System.out.println(args[0]);
+//                System.out.println(args[1]);
+//                System.out.println(args[2]);
                 c = new Client(address, port, login);
             }
         } catch (UnknownHostException e) {

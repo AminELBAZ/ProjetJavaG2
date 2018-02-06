@@ -19,6 +19,8 @@ public class ConnectedClient implements Runnable {
 
     private static int idCounter;
     private int id;
+    private String login;
+
     private Server server;
     private Socket socket;
     private BufferedReader in;
@@ -28,6 +30,7 @@ public class ConnectedClient implements Runnable {
         this.server = server;
         this.socket = socket;
         this.id = idCounter;
+        this.login = String.valueOf(this.id);
         idCounter++;
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.out = new PrintWriter(socket.getOutputStream());
@@ -35,12 +38,20 @@ public class ConnectedClient implements Runnable {
         System.out.println("Nouvelle connexion, id = " + this.id);
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+    
     @Override
     public void run() {
         boolean isActive = true;
         while (isActive) {
             try {
-                
+
                 String message = in.readLine();
 
                 if (message != null) {

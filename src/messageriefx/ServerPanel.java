@@ -66,7 +66,7 @@ public class ServerPanel extends Parent {
             public void handle(ActionEvent event) {
                 Server server = MainServer.getInstance();
                 String adresseServer = "127.0.0.1";
-                // Si il y a une instance du serveur
+                // Si il n'y a pas d'instance du serveur
                 if (server == null) {
                     // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
                     if (estUnEntierValide(port.getText())) {
@@ -76,6 +76,7 @@ public class ServerPanel extends Parent {
                         args[0] = port.getText();
                         MainServer.main(args);
                         System.err.println("server ok");
+                        server = MainServer.getInstance();
 
                         //Définition du tableau d'arguments client
                         String[] argsClient = new String[3];
