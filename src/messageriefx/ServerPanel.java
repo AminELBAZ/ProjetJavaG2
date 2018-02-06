@@ -50,7 +50,7 @@ public class ServerPanel extends Parent {
         this.valid.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                
+
                 // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
                 if (estUnEntierValide(port.getText())) {
                     portStage.close();
@@ -59,11 +59,10 @@ public class ServerPanel extends Parent {
                     args[0] = port.getText();
                     MainServer.main(args);
                     stage.show();
-                    
-                // Sinon on affiche un message d'erreur
+
+                    // Sinon on affiche un message d'erreur
                 } else {
                     erreur.setVisible(true);
-                } else {
                     //Définition du tableau d'arguments
                     String[] args = new String[3];
                     args[0] = "127.0.0.0";
