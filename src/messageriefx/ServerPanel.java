@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -22,6 +23,7 @@ import server.*;
 public class ServerPanel extends Parent {
 
     private Text titre;
+    private Text erreur;
     private TextArea port;
     private Button valid;
 
@@ -35,24 +37,59 @@ public class ServerPanel extends Parent {
         this.port.setLayoutY(250);
         this.port.setPrefSize(60, 50);
 
+        this.erreur = new Text("Numéro de port invalide, vérifiez votre saisie.");
+        this.erreur.setLayoutX(150);
+        this.erreur.setLayoutY(240);
+        this.erreur.setFill(Color.RED);
+        this.erreur.setVisible(false);
+
         this.valid = new Button("Valider");
         this.valid.setLayoutX(280);
         this.valid.setLayoutY(310);
         this.valid.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                portStage.close();
-                //Définition du tableau d'arguments
-                String[] args = new String[1];
-                args[0] = port.getText();
-                MainServer.main(args);
-                stage.show();
+                
+                // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
+                if (estUnEntierValide(port.getText())) {
+                    portStage.close();
+                    //Définition du tableau d'arguments
+                    String[] args = new String[1];
+                    args[0] = port.getText();
+                    MainServer.main(args);
+                    stage.show();
+                    
+                // Sinon on affiche un message d'erreur
+                } else {
+                    erreur.setVisible(true);
+                }
             }
         });
-
+        this.getChildren().add(this.erreur);
         this.getChildren().add(this.titre);
         this.getChildren().add(this.port);
         this.getChildren().add(this.valid);
+    }
+
+    /**
+     * Fonction qui vérifie que la chaine passé est un entier compris entre 1024
+     * et 49151
+     *
+     * @param chaine
+     * @return boolean
+     */
+    public boolean estUnEntierValide(String chaine) {
+        int test;
+        try {
+            test = Integer.parseInt(chaine);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        if (!(test >= 1024 && test <= 49151)) {
+            return false;
+        }
+
+        return true;
     }
 
 }
