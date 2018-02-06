@@ -47,10 +47,27 @@ public class ServerPanel extends Parent {
         this.inputPseudo.setLayoutY(100);
         this.inputPseudo.setPrefSize(60, 50);
 
+        
         this.port = new TextArea();
         this.port.setLayoutX(280);
         this.port.setLayoutY(250);
         this.port.setPrefSize(60, 50);
+        
+        this.erreur = new Text("Numéro de port invalide, vérifiez votre saisie.");
+        this.erreur.setLayoutX(150);
+        this.erreur.setLayoutY(240);
+        this.erreur.setFill(Color.RED);
+        this.erreur.setVisible(false);
+        
+        this.pseudo= new Text("Votre pseudo : ");
+        this.pseudo.setLayoutX(280);
+        this.pseudo.setLayoutY(50);
+   
+       
+        this.inputPseudo= new TextArea();
+        this.inputPseudo.setLayoutX(280);
+        this.inputPseudo.setLayoutY(100);
+        this.inputPseudo.setPrefSize(60, 50);
 
         this.erreur = new Text("Numéro de port invalide, vérifiez votre saisie.");
         this.erreur.setLayoutX(150);
@@ -116,7 +133,7 @@ public class ServerPanel extends Parent {
     }
 
     /**
-     * Fonction qui vérifie que la chaine passé est un entier compris entre 1024
+     * Fonction qui vérifie que la chaine passée est un entier compris entre 1024
      * et 49151
      *
      * @param chaine
@@ -128,12 +145,14 @@ public class ServerPanel extends Parent {
             test = Integer.parseInt(chaine);
         } catch (NumberFormatException e) {
             return false;
-        }
+}
         if (!(test >= 1024 && test <= 49151)) {
             return false;
         }
 
         return true;
     }
+
+
 
 }
