@@ -60,7 +60,7 @@ public class Client {
     public void disconnectedServer() throws IOException {
         try {
             
-            this.in.close();;
+            this.in.close();
             this.out.close();
             this.socket.close();
             System.exit(0);

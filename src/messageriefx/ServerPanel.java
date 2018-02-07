@@ -81,12 +81,13 @@ public class ServerPanel extends Parent {
         this.valid.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                
+
                 String adresseServer = "127.0.0.1";
                 // Si il n'y a pas d'instance du serveur
                 if (server == null) {
                     // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
                     if (estUnEntierValide(port.getText())) {
+//                        adresseServer = "192.168.43.205";
                         portStage.close();
                         //Définition du tableau d'arguments server
                         String[] args = new String[1];
@@ -109,6 +110,7 @@ public class ServerPanel extends Parent {
                         erreur.setVisible(true);
                     }
                 } else {
+                    adresseServer = "192.168.43.205";
                     System.err.println("not ok");
                     //Définition du tableau d'arguments
                     String[] args = new String[3];
