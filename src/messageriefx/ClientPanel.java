@@ -58,7 +58,7 @@ public class ClientPanel extends Parent {
         this.textToSend.setLayoutX(50);
         this.textToSend.setLayoutY(350);
         this.textToSend.setPrefSize(400, 100);
-
+        
         this.sendBtn = new Button("Envoyer");
         this.sendBtn.setLayoutX(470);
         this.sendBtn.setLayoutY(350);
