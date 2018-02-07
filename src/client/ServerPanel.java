@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package messageriefx;
+package client;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,6 +19,8 @@ import client.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 
 /**
  *
@@ -33,8 +35,7 @@ public class ServerPanel extends Parent {
     private Text pseudo;
     private TextArea inputPseudo;
 
-
-    public ServerPanel(Stage portStage, Stage stage) {
+    public ServerPanel(Stage stage) {
         this.titre = new Text("Veuillez saisir un numéro de port entre 1024 et 49151 :");
         this.titre.setLayoutX(150);
         this.titre.setLayoutY(200);
@@ -85,17 +86,31 @@ public class ServerPanel extends Parent {
                 // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
                 if (estUnEntierValide(port.getText())) {
 //                        adresseServer = "192.168.43.205";
-                    portStage.close();
+                    stage.close();
 
                     //Définition du tableau d'arguments client
-                    String[] argsClient = new String[3];
-                    argsClient[0] = adresseServer;
-                    argsClient[1] = port.getText();
-                    argsClient[2] = inputPseudo.getText();
+//                    String[] argsClient = new String[3];
+//                    argsClient[0] = adresseServer;
+//                    argsClient[1] = port.getText();
+//                    argsClient[2] = inputPseudo.getText();
+                    
+                    Client c = null;
                     //Lancement du client
-                    MainClient.main(argsClient);
+                    try {
+                        c = new Client(adresseServer, Integer.parseInt(port.getText()), inputPseudo.getText());
+                    } catch (IOException ex) {
+                        Logger.getLogger(ServerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     System.out.println("client ok");
-                    stage.show();
+
+                    Stage clientStage = new Stage();
+                    ClientPanel clientPanel = new ClientPanel(clientStage,c);
+                    Group root = new Group();
+                    root.getChildren().add(clientPanel);
+                    Scene scene = new Scene(root, 600, 500);
+                    clientStage.setTitle("Mon Chat");
+                    clientStage.setScene(scene);
+                    clientStage.show();
                     // Sinon on affiche un message d'erreur
                 } else {
                     erreur.setVisible(true);

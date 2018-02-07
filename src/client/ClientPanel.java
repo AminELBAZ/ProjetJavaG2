@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package messageriefx;
+package client;
 
 import java.awt.Panel;
 import javafx.event.ActionEvent;
@@ -42,11 +42,11 @@ public class ClientPanel extends Parent {
     private TextArea connected;
     private Text textMembers;
 
-    public ClientPanel(Stage stage) {
+    public ClientPanel(Stage stage, Client client) {
 
         this.receivedText = new TextFlow();
         this.receivedText.setPrefSize(400, 250);
-
+        
         this.scrollReceivedText = new ScrollPane();
         this.scrollReceivedText.setContent(this.receivedText);
         this.scrollReceivedText.vvalueProperty().bind(this.receivedText.heightProperty());
@@ -66,7 +66,18 @@ public class ClientPanel extends Parent {
         this.sendBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                
                 buffer.setText(buffer.getText() + " " + textToSend.getText()+"\n");
+                try {
+                    buffer.setText(buffer.getText() + " " + client.getIn().readLine() +"\n");
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+                
+                client.getOut().println(textToSend.getText());
+                client.getOut().flush();
                 
                 textToSend.clear();
             }
@@ -92,6 +103,7 @@ public class ClientPanel extends Parent {
         stage.setOnShowing(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
+                connected.setText(client.getLogin());
             }
         });
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {

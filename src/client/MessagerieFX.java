@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package messageriefx;
+package client;
 
+import client.ClientPanel;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,8 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import server.*;
-import client.*;
 
 /**
  *
@@ -26,24 +25,15 @@ public class MessagerieFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Stage portStage = new Stage();
 
-        ServerPanel serverPanel = new ServerPanel(portStage, stage);
+        ServerPanel serverPanel = new ServerPanel(stage);
         Group portServer = new Group();
         portServer.getChildren().add(serverPanel);
         Scene scenePort = new Scene(portServer, 600, 500);
-        portStage.setTitle("Connexion");
-        portStage.setScene(scenePort);
-        portStage.show();
+        stage.setTitle("Connexion");
+        stage.setScene(scenePort);
+        stage.show();
         
-        ClientPanel clientPanel = new ClientPanel(stage);
-        Group root = new Group();
-        root.getChildren().add(clientPanel);
-        Scene scene = new Scene(root, 600, 500);
-        stage.setTitle("Mon Chat");
-        stage.setScene(scene);
-        
-
     }
 
     /**
