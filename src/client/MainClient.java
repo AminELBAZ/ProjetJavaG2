@@ -14,7 +14,6 @@ import java.net.UnknownHostException;
  */
 public class MainClient {
 
-    static Client c = null;
 
     /**
      * construct a new client
@@ -32,7 +31,7 @@ public class MainClient {
 //                System.out.println(args[0]);
 //                System.out.println(args[1]);
 //                System.out.println(args[2]);
-                c = new Client(address, port, login);
+                Client c = new Client(address, port, login);
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -46,13 +45,6 @@ public class MainClient {
         System.out.println("\t<address>: server's ip address");
         System.out.println("\t<port>: server's port");
         System.out.println("\t<login>: client login");
-    }
-
-    public static Client getInstance() {
-        if (c == null) {
-            return null;
-        }
-        return c;
     }
 
 }

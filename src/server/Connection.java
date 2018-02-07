@@ -17,7 +17,6 @@ public class Connection implements Runnable {
 
     private Server server;
     private ServerSocket serverSocket;
-    private static ConnectedClient newClient  = null;
 
     public Connection(Server server) throws IOException {
         this.server = server;
@@ -30,7 +29,7 @@ public class Connection implements Runnable {
             try {
                 Socket sockNewClient = serverSocket.accept();
 
-                newClient = new ConnectedClient(server, sockNewClient);
+                ConnectedClient newClient = new ConnectedClient(server, sockNewClient);
 
                 server.addClient(newClient);
 
@@ -42,13 +41,6 @@ public class Connection implements Runnable {
         }
     }
 
-    public static ConnectedClient getInstance(){
-        if(newClient == null)
-            return null;
-        return newClient;
-    }
-    
-    
     public Server getServer() {
         return server;
     }

@@ -33,7 +33,6 @@ public class ServerPanel extends Parent {
     private Text pseudo;
     private TextArea inputPseudo;
 
-    static Server server = MainServer.getInstance();
 
     public ServerPanel(Stage portStage, Stage stage) {
         this.titre = new Text("Veuillez saisir un numéro de port entre 1024 et 49151 :");
@@ -83,45 +82,23 @@ public class ServerPanel extends Parent {
             public void handle(ActionEvent event) {
 
                 String adresseServer = "127.0.0.1";
-                // Si il n'y a pas d'instance du serveur
-                if (server == null) {
-                    // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
-                    if (estUnEntierValide(port.getText())) {
+                // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
+                if (estUnEntierValide(port.getText())) {
 //                        adresseServer = "192.168.43.205";
-                        portStage.close();
-                        //Définition du tableau d'arguments server
-                        String[] args = new String[1];
-                        args[0] = port.getText();
-                        MainServer.main(args);
-                        System.err.println("server ok");
-                        server = MainServer.getInstance();
+                    portStage.close();
 
-                        //Définition du tableau d'arguments client
-                        String[] argsClient = new String[3];
-                        argsClient[0] = adresseServer;
-                        argsClient[1] = port.getText();
-                        argsClient[2] = inputPseudo.getText();
-                        //Lancement du client
-                        MainClient.main(argsClient);
-                        System.err.println("client ok");
-                        stage.show();
-                        // Sinon on affiche un message d'erreur
-                    } else {
-                        erreur.setVisible(true);
-                    }
-                } else {
-                    adresseServer = "192.168.43.205";
-                    System.err.println("not ok");
-                    //Définition du tableau d'arguments
-                    String[] args = new String[3];
-                    args[0] = adresseServer;
-                    args[1] = port.getText();
-                    args[2] = inputPseudo.getText();
+                    //Définition du tableau d'arguments client
+                    String[] argsClient = new String[3];
+                    argsClient[0] = adresseServer;
+                    argsClient[1] = port.getText();
+                    argsClient[2] = inputPseudo.getText();
                     //Lancement du client
-                    MainClient.main(args);
-
+                    MainClient.main(argsClient);
+                    System.out.println("client ok");
                     stage.show();
-
+                    // Sinon on affiche un message d'erreur
+                } else {
+                    erreur.setVisible(true);
                 }
             }
         }

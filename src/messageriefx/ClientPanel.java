@@ -103,33 +103,6 @@ public class ClientPanel extends Parent {
         stage.setOnShowing(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                //Récupération du server
-                server = MainServer.getInstance();
-                if (server == null) {
-                    System.err.println("Pas d'instance du server");
-                    return;
-                }
-                //Récupération du client
-                Client cl = MainClient.getInstance();
-                if (cl == null) {
-                    System.err.println("Pas d'instance du client");
-                    return;
-                }
-
-                //Récupération du client connecté
-                cnCli = Connection.getInstance();
-                if (cnCli == null) {
-                    System.err.println("Pas d'instance du client connecté");
-                    return;
-                }
-
-                cnCli.setLogin(cl.getLogin());
-                System.out.println(cnCli.getLogin());
-
-                //Ajoute les utilisateurs connectés
-                for (ConnectedClient client : server.getClients()) {
-                    connected.setText(connected.getText() + client.getLogin() + "\n");
-                }
             }
         });
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
