@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -17,7 +19,7 @@ import javafx.collections.ObservableList;
  *
  * @author aelbaz
  */
-public class Client {
+public class Client implements Runnable {
 
     private String address;
     private String login;
@@ -25,6 +27,7 @@ public class Client {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
+    public ObservableList<String> chatLog;
 
     public String getLogin() {
         return login;
@@ -41,25 +44,25 @@ public class Client {
         this.socket = new Socket(this.address, this.port);
         this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
         this.out = new PrintWriter(this.socket.getOutputStream());
-        
+        this.chatLog = FXCollections.observableArrayList();
 
         ClientSend clientSend = new ClientSend(this.out);
         Thread threadClientSend = new Thread(clientSend);
         threadClientSend.start();
-        
-        ClientReceive clientReceive = new ClientReceive(this,this.in);
+
+        ClientReceive clientReceive = new ClientReceive(this, this.in);
         Thread threadClientReceive = new Thread(clientReceive);
         threadClientReceive.start();
     }
 
     /**
      * Déconnecte le client du server et quitte l'app
-     * 
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     public void disconnectedServer() throws IOException {
         try {
-            
+
             this.in.close();
             this.out.close();
             this.socket.close();
@@ -70,7 +73,36 @@ public class Client {
         }
     }
 
-    /** Get And Set **/
+    public void run() {
+        /* Infinite loop to update the chat log from the server */
+        while (true) {
+            try {
+
+                final String inputFromServer = in.readLine();
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        chatLog.add(inputFromServer);
+                    }
+                });
+
+            } catch (SocketException e) {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        chatLog.add("Error in server");
+                    }
+
+                });
+                break;
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Get And Set *
+     */
     public String getAddress() {
         return address;
     }
@@ -110,7 +142,5 @@ public class Client {
     public void setOut(PrintWriter out) {
         this.out = out;
     }
-    
-    
 
 }

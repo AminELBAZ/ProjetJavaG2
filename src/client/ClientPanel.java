@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -41,11 +42,16 @@ public class ClientPanel extends Parent {
     private Button clearBtn;
     private TextArea connected;
     private Text textMembers;
+    private ListView<String> chatListView;
 
     public ClientPanel(Stage stage, Client client) {
 
         this.receivedText = new TextFlow();
         this.receivedText.setPrefSize(400, 250);
+        
+        this.chatListView = new ListView<String>();
+	this.chatListView.setItems(client.chatLog);
+        this.chatListView.setPrefSize(300, 200);
         
         this.scrollReceivedText = new ScrollPane();
         this.scrollReceivedText.setContent(this.receivedText);
@@ -68,11 +74,11 @@ public class ClientPanel extends Parent {
             public void handle(ActionEvent event) {
                 
                 buffer.setText(buffer.getText() + " " + textToSend.getText()+"\n");
-                try {
-                    buffer.setText(buffer.getText() + " " + client.getIn().readLine() +"\n");
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//                try {
+//                    buffer.setText(buffer.getText() + " " + client.getIn().readLine() +"\n");
+//                } catch (IOException ex) {
+//                    Logger.getLogger(ClientPanel.class.getName()).log(Level.SEVERE, null, ex);
+//                }
                 
                 
                 
@@ -116,8 +122,9 @@ public class ClientPanel extends Parent {
         this.textMembers = new Text("Connectés : ");
         this.textMembers.setLayoutX(470);
         this.textMembers.setLayoutY(40);
-
-        this.getChildren().add(receivedText);
+        
+//        this.getChildren().add(chatListView);
+        receivedText.getChildren().add(chatListView);
         this.getChildren().add(scrollReceivedText);
         this.getChildren().add(textToSend);
         this.getChildren().add(sendBtn);
