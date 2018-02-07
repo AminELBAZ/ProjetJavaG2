@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -39,6 +41,7 @@ public class Client {
         this.socket = new Socket(this.address, this.port);
         this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
         this.out = new PrintWriter(this.socket.getOutputStream());
+        
 
         ClientSend clientSend = new ClientSend(this.out);
         Thread threadClientSend = new Thread(clientSend);

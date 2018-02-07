@@ -18,13 +18,22 @@ import javafx.scene.text.TextFlow;
 
 import server.*;
 import client.*;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
  * @author aelbaz
  */
 public class ClientPanel extends Parent {
+
+    static Server server = null;
+    static ConnectedClient cnCli = null;
 
     private TextFlow receivedText;
     private ScrollPane scrollReceivedText;
@@ -34,7 +43,7 @@ public class ClientPanel extends Parent {
     private TextArea connected;
     private Text textMembers;
 
-    public ClientPanel() {
+    public ClientPanel(Stage stage) {
 
         this.receivedText = new TextFlow();
         this.receivedText.setPrefSize(400, 250);
@@ -64,8 +73,18 @@ public class ClientPanel extends Parent {
                     buffer.setText(buffer.getText() + "\n" + textToSend.getText());
                 }
 
+                cnCli.sendMessage(textToSend.getText());
                 textToSend.clear();
                 receivedText.getChildren().add(buffer);
+//                receivedText.getChildren().clear();
+//                for (Object ligne : cnCli.getChatLog().toArray()) {
+//                    if (buffer.getText() == "") {
+//                        buffer.setText(ligne.toString());
+//                    } else {
+//                        buffer.setText(buffer.getText()+"\n" + ligne);
+//                    }
+//                }
+//                receivedText.getChildren().add(buffer);
             }
         });
 
@@ -86,15 +105,44 @@ public class ClientPanel extends Parent {
         this.connected.setPrefSize(100, 250);
         this.connected.setEditable(false);
 
-        //A tester pour mettre à jour les clients connectés
-        Server server = MainServer.getInstance();
-        if (server != null) {
-            System.out.println("server ok ok ok");
-            for (ConnectedClient client : server.getClients()) {
-                System.out.println(client.getLogin());
-                this.connected.setText(this.connected.getText() + "\n" + client.getLogin());
+        stage.setOnShowing(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                //Récupération du server
+                server = MainServer.getInstance();
+                if (server == null) {
+                    System.err.println("Pas d'instance du server");
+                    return;
+                }
+                //Récupération du client
+                Client cl = MainClient.getInstance();
+                if (cl == null) {
+                    System.err.println("Pas d'instance du client");
+                    return;
+                }
+
+                //Récupération du client connecté
+                cnCli = Connection.getInstance();
+                if (cnCli == null) {
+                    System.err.println("Pas d'instance du client connecté");
+                    return;
+                }
+
+                cnCli.setLogin(cl.getLogin());
+                System.out.println(cnCli.getLogin());
+
+                //Ajoute les utilisateurs connectés
+                for (ConnectedClient client : server.getClients()) {
+                    connected.setText(connected.getText() + client.getLogin() + "\n");
+                }
             }
-        }
+        });
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                System.exit(0);
+            }
+        });
 
         this.textMembers = new Text("Connectés : ");
         this.textMembers.setLayoutX(470);

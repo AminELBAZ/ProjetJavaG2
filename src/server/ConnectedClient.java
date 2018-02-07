@@ -5,11 +5,15 @@
  */
 package server;
 
+import client.Client;
+import client.MainClient;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -25,6 +29,15 @@ public class ConnectedClient implements Runnable {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
+    public ObservableList<String> chatLog;
+
+    public ObservableList<String> getChatLog() {
+        return chatLog;
+    }
+
+    public void setChatLog(ObservableList<String> chatLog) {
+        this.chatLog = chatLog;
+    }
 
     public ConnectedClient(Server server, Socket socket) throws IOException {
         this.server = server;
@@ -34,6 +47,7 @@ public class ConnectedClient implements Runnable {
         idCounter++;
         this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.out = new PrintWriter(socket.getOutputStream());
+        chatLog = FXCollections.observableArrayList();
 
         System.out.println("Nouvelle connexion, id = " + this.id);
     }
@@ -45,7 +59,7 @@ public class ConnectedClient implements Runnable {
     public void setLogin(String login) {
         this.login = login;
     }
-    
+
     @Override
     public void run() {
         boolean isActive = true;
@@ -56,6 +70,7 @@ public class ConnectedClient implements Runnable {
 
                 if (message != null) {
                     server.broadcastMessage(message, id);
+                    this.chatLog.add(message);
                 } else {
                     server.disconnectedClient(this);
                     isActive = false;
@@ -68,6 +83,7 @@ public class ConnectedClient implements Runnable {
     }
 
     public void sendMessage(String m) {
+        this.chatLog.add(m);
         this.out.println(m);
         this.out.flush();
     }

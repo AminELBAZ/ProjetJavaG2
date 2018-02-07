@@ -93,7 +93,7 @@ public class Server {
     }
 
     public List<ConnectedClient> getClients() {
-        return clients;
+        return this.clients;
     }
 
     public void setClients(List<ConnectedClient> clients) {

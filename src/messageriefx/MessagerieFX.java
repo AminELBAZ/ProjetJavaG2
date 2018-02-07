@@ -40,7 +40,7 @@ public class MessagerieFX extends Application {
         if(server != null)
             System.out.println("messageriefx.MessagerieFX.start()");
         
-        ClientPanel clientPanel = new ClientPanel();
+        ClientPanel clientPanel = new ClientPanel(stage);
         Group root = new Group();
         root.getChildren().add(clientPanel);
         Scene scene = new Scene(root, 600, 500);
