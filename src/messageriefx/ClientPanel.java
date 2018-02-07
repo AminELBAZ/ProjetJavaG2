@@ -67,15 +67,10 @@ public class ClientPanel extends Parent {
         this.sendBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (buffer.getText() == "") {
-                    buffer.setText(textToSend.getText());
-                } else {
-                    buffer.setText(buffer.getText() + "\n" + textToSend.getText());
-                }
-
+                buffer.setText(buffer.getText() + " " + textToSend.getText()+"\n");
+                
                 cnCli.sendMessage(textToSend.getText());
                 textToSend.clear();
-                receivedText.getChildren().add(buffer);
 //                receivedText.getChildren().clear();
 //                for (Object ligne : cnCli.getChatLog().toArray()) {
 //                    if (buffer.getText() == "") {
@@ -155,6 +150,7 @@ public class ClientPanel extends Parent {
         this.getChildren().add(clearBtn);
         this.getChildren().add(connected);
         this.getChildren().add(textMembers);
+        receivedText.getChildren().add(buffer);
     }
 
 }

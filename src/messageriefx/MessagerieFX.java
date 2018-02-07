@@ -36,10 +36,6 @@ public class MessagerieFX extends Application {
         portStage.setScene(scenePort);
         portStage.show();
         
-        Server server = MainServer.getInstance();
-        if(server != null)
-            System.out.println("messageriefx.MessagerieFX.start()");
-        
         ClientPanel clientPanel = new ClientPanel(stage);
         Group root = new Group();
         root.getChildren().add(clientPanel);
