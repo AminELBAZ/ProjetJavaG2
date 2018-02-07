@@ -33,7 +33,6 @@ import javafx.stage.WindowEvent;
 public class ClientPanel extends Parent {
 
     static Server server = null;
-    static ConnectedClient cnCli = null;
 
     private TextFlow receivedText;
     private ScrollPane scrollReceivedText;
@@ -69,17 +68,7 @@ public class ClientPanel extends Parent {
             public void handle(ActionEvent event) {
                 buffer.setText(buffer.getText() + " " + textToSend.getText()+"\n");
                 
-                cnCli.sendMessage(textToSend.getText());
                 textToSend.clear();
-//                receivedText.getChildren().clear();
-//                for (Object ligne : cnCli.getChatLog().toArray()) {
-//                    if (buffer.getText() == "") {
-//                        buffer.setText(ligne.toString());
-//                    } else {
-//                        buffer.setText(buffer.getText()+"\n" + ligne);
-//                    }
-//                }
-//                receivedText.getChildren().add(buffer);
             }
         });
 
