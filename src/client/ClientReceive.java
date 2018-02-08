@@ -34,7 +34,7 @@ public class ClientReceive implements Runnable {
                     System.out.print("\nMessage reçu : " + message);
                     client.chatLog.add(message);
                 } else {
-//                    isActive = false;
+                    isActive = false;
                 }
             }
             client.disconnectedServer();
