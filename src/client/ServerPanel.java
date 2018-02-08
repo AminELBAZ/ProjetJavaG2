@@ -34,15 +34,12 @@ public class ServerPanel extends Parent {
     private Button valid;
     private Text pseudo;
     private TextArea inputPseudo;
+    private TextArea inputAddress;
 
     public ServerPanel(Stage stage) {
         this.titre = new Text("Veuillez saisir un numéro de port entre 1024 et 49151 :");
         this.titre.setLayoutX(150);
         this.titre.setLayoutY(200);
-
-        this.pseudo = new Text("Veuillez saisir un Pseudo:");
-        this.pseudo.setLayoutX(150);
-        this.pseudo.setLayoutY(50);
 
         this.inputPseudo = new TextArea();
         this.inputPseudo.setLayoutX(280);
@@ -54,20 +51,9 @@ public class ServerPanel extends Parent {
         this.port.setLayoutY(250);
         this.port.setPrefSize(60, 50);
 
-        this.erreur = new Text("Numéro de port invalide, vérifiez votre saisie.");
-        this.erreur.setLayoutX(150);
-        this.erreur.setLayoutY(240);
-        this.erreur.setFill(Color.RED);
-        this.erreur.setVisible(false);
-
         this.pseudo = new Text("Votre pseudo : ");
         this.pseudo.setLayoutX(280);
         this.pseudo.setLayoutY(50);
-
-        this.inputPseudo = new TextArea();
-        this.inputPseudo.setLayoutX(280);
-        this.inputPseudo.setLayoutY(100);
-        this.inputPseudo.setPrefSize(60, 50);
 
         this.erreur = new Text("Numéro de port invalide, vérifiez votre saisie.");
         this.erreur.setLayoutX(150);
@@ -82,7 +68,7 @@ public class ServerPanel extends Parent {
             @Override
             public void handle(ActionEvent event) {
 
-                String adresseServer = "127.0.0.1";
+                String adresseServer = "192.168.43.94";
                 // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
                 if (estUnEntierValide(port.getText())) {
 //                        adresseServer = "192.168.43.205";
