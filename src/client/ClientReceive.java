@@ -34,6 +34,7 @@ public class ClientReceive implements Runnable {
                 if (message.startsWith("[?CO")) {
                     // ON RECUPERE LA LISTE DES CLIENTS SANS LENTETE
                     message = message.substring(5, message.length() - 1);
+                    client.listeClientsCo.clear();
                     // ON SEPARE LES CLIENTS
                     String[] split = message.split(",");
                     for (int i = 0; i < split.length; i++) {
