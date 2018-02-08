@@ -87,15 +87,9 @@ public class ServerPanel extends Parent {
                 if (estUnEntierValide(port.getText())) {
 //                        adresseServer = "192.168.43.205";
                     stage.close();
-
-                    //Définition du tableau d'arguments client
-//                    String[] argsClient = new String[3];
-//                    argsClient[0] = adresseServer;
-//                    argsClient[1] = port.getText();
-//                    argsClient[2] = inputPseudo.getText();
                     
-                    Client c = null;
                     //Lancement du client
+                    Client c = null;
                     try {
                         c = new Client(adresseServer, Integer.parseInt(port.getText()), inputPseudo.getText());
                     } catch (IOException ex) {

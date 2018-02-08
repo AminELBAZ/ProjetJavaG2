@@ -35,8 +35,6 @@ import javafx.stage.WindowEvent;
  */
 public class ClientPanel extends Parent {
 
-    static Server server = null;
-
     private TextFlow receivedText;
     private ScrollPane scrollReceivedText;
     private TextArea textToSend;
@@ -45,7 +43,7 @@ public class ClientPanel extends Parent {
     private TextArea connected;
     private Text textMembers;
     private ListView<String> chatListView;
-    private ObservableList<String> observableList;
+    private ListView<String> clientCoListView;
 
     public ClientPanel(Stage stage, Client client) {
         
@@ -102,18 +100,25 @@ public class ClientPanel extends Parent {
             }
         });
 
-        this.connected = new TextArea();
-        this.connected.setLayoutX(470);
-        this.connected.setLayoutY(50);
-        this.connected.setPrefSize(100, 250);
-        this.connected.setEditable(false);
+        
+//        this.chatListView = new ListView<String>();
+//        this.chatListView.setItems();
+//        this.chatListView.setPrefSize(100, 250);
+//        this.chatListView.setLayoutX(470);
+//        this.chatListView.setLayoutY(50);
+        
+//        this.connected = new TextArea();
+//        this.connected.setLayoutX(470);
+//        this.connected.setLayoutY(50);
+//        this.connected.setPrefSize(100, 250);
+//        this.connected.setEditable(false);
 
-        stage.setOnShowing(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                connected.setText(client.getLogin());
-            }
-        });
+//        stage.setOnShowing(new EventHandler<WindowEvent>() {
+//            @Override
+//            public void handle(WindowEvent event) {
+//                connected.setText(client.getLogin());
+//            }
+//        });
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
@@ -131,7 +136,8 @@ public class ClientPanel extends Parent {
         this.getChildren().add(textToSend);
         this.getChildren().add(sendBtn);
         this.getChildren().add(clearBtn);
-        this.getChildren().add(connected);
+//        this.getChildren().add(connected);
+        this.getChildren().add(chatListView);
         this.getChildren().add(textMembers);
         receivedText.getChildren().add(buffer);
     }

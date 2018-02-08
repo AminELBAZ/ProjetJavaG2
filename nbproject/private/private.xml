@@ -3,13 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/aelbaz/NetBeansProjects/Cours/JAVA/MessagerieFX/src/client/ClientReceive.java</file>
             <file>file:/home/aelbaz/NetBeansProjects/Cours/JAVA/MessagerieFX/src/client/MessagerieFX.java</file>
             <file>file:/home/aelbaz/NetBeansProjects/Cours/JAVA/MessagerieFX/src/client/Client.java</file>
             <file>file:/home/aelbaz/NetBeansProjects/Cours/JAVA/MessagerieFX/src/server/MainServer.java</file>
             <file>file:/home/aelbaz/NetBeansProjects/Cours/JAVA/MessagerieFX/src/client/ServerPanel.java</file>
             <file>file:/home/aelbaz/NetBeansProjects/Cours/JAVA/MessagerieFX/src/server/Connection.java</file>
+            <file>file:/home/aelbaz/NetBeansProjects/Cours/JAVA/MessagerieFX/src/server/ConnectedClient.java</file>
             <file>file:/home/aelbaz/NetBeansProjects/Cours/JAVA/MessagerieFX/src/client/ClientSend.java</file>
             <file>file:/home/aelbaz/NetBeansProjects/Cours/JAVA/MessagerieFX/src/client/ClientPanel.java</file>
+            <file>file:/home/aelbaz/NetBeansProjects/Cours/JAVA/MessagerieFX/src/server/Server.java</file>
             <file>file:/home/aelbaz/NetBeansProjects/Cours/JAVA/MessagerieFX/src/client/MainClient.java</file>
         </group>
     </open-files>
