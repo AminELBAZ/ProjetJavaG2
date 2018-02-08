@@ -30,8 +30,9 @@ public class ClientReceive implements Runnable {
         try {
             while (isActive) {
                 String message = in.readLine();
-                if (message != null) {
-                    System.out.println("\nMessage reçu : " + message);
+                if (message != null && !message.equals("")) {
+                    System.out.print("\nMessage reçu : " + message);
+                    client.chatLog.add(message);
                 } else {
                     isActive = false;
                 }

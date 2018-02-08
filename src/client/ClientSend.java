@@ -12,8 +12,8 @@ import java.util.Scanner;
  *
  * @author aelbaz
  */
-public class ClientSend implements Runnable{
-    
+public class ClientSend implements Runnable {
+
     private PrintWriter out;
 
     public ClientSend(PrintWriter out) {
@@ -22,15 +22,17 @@ public class ClientSend implements Runnable{
 
     @Override
     public void run() {
-        
+
         Scanner sc = new Scanner(System.in);
-        while(true){
+        while (true) {
             System.out.print("Votre message >> ");
             String m = sc.nextLine();
-            out.println(m);
-            out.flush();
+            if (m != null && !m.equals("")) {
+                out.println(m);
+                out.flush();
+            }
         }
-        
+
     }
 
     public PrintWriter getOut() {
@@ -40,9 +42,5 @@ public class ClientSend implements Runnable{
     public void setOut(PrintWriter out) {
         this.out = out;
     }
-    
-    
-    
-    
-    
+
 }

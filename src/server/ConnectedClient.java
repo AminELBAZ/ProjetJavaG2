@@ -58,7 +58,7 @@ public class ConnectedClient implements Runnable {
 
                 String message = in.readLine();
 
-                if (message != null) {
+                if (message != null && !message.equals("")) {
                     server.broadcastMessage(message, id);
                 } else {
                     server.disconnectedClient(this);

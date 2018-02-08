@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -43,19 +45,24 @@ public class ClientPanel extends Parent {
     private TextArea connected;
     private Text textMembers;
     private ListView<String> chatListView;
+    private ObservableList<String> observableList;
 
     public ClientPanel(Stage stage, Client client) {
+        
+        Thread threadClient = new Thread(client);
+        threadClient.start();
 
         this.receivedText = new TextFlow();
         this.receivedText.setPrefSize(400, 250);
-        
+
         this.chatListView = new ListView<String>();
-	this.chatListView.setItems(client.chatLog);
-        this.chatListView.setPrefSize(300, 200);
-        
+        this.chatListView.setItems(client.chatLog);
+        this.chatListView.setPrefSize(400, 200);
+
         this.scrollReceivedText = new ScrollPane();
-        this.scrollReceivedText.setContent(this.receivedText);
-        this.scrollReceivedText.vvalueProperty().bind(this.receivedText.heightProperty());
+//        this.scrollReceivedText.setContent(this.receivedText);
+        this.scrollReceivedText.setContent(this.chatListView);
+        this.scrollReceivedText.vvalueProperty().bind(this.chatListView.heightProperty());
         this.scrollReceivedText.setLayoutX(50);
         this.scrollReceivedText.setLayoutY(50);
 
@@ -72,19 +79,17 @@ public class ClientPanel extends Parent {
         this.sendBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                
-                buffer.setText(buffer.getText() + " " + textToSend.getText()+"\n");
+
+                buffer.setText(buffer.getText() + " " + textToSend.getText() + "\n");
 //                try {
 //                    buffer.setText(buffer.getText() + " " + client.getIn().readLine() +"\n");
 //                } catch (IOException ex) {
 //                    Logger.getLogger(ClientPanel.class.getName()).log(Level.SEVERE, null, ex);
 //                }
-                
-                
-                
+                client.chatLog.add(textToSend.getText());
                 client.getOut().println(textToSend.getText());
                 client.getOut().flush();
-                
+
                 textToSend.clear();
             }
         });
@@ -122,9 +127,9 @@ public class ClientPanel extends Parent {
         this.textMembers = new Text("Connectés : ");
         this.textMembers.setLayoutX(470);
         this.textMembers.setLayoutY(40);
-        
+
 //        this.getChildren().add(chatListView);
-        receivedText.getChildren().add(chatListView);
+//        receivedText.getChildren().add(chatListView);
         this.getChildren().add(scrollReceivedText);
         this.getChildren().add(textToSend);
         this.getChildren().add(sendBtn);

@@ -44,7 +44,7 @@ public class Client implements Runnable {
         this.socket = new Socket(this.address, this.port);
         this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
         this.out = new PrintWriter(this.socket.getOutputStream());
-        this.chatLog = FXCollections.observableArrayList();
+        chatLog = FXCollections.observableArrayList();
 
         ClientSend clientSend = new ClientSend(this.out);
         Thread threadClientSend = new Thread(clientSend);
@@ -73,12 +73,12 @@ public class Client implements Runnable {
         }
     }
 
+    @Override
     public void run() {
         /* Infinite loop to update the chat log from the server */
         while (true) {
             try {
-
-                final String inputFromServer = in.readLine();
+                final String inputFromServer = this.in.readLine();
                 Platform.runLater(new Runnable() {
                     public void run() {
                         chatLog.add(inputFromServer);
