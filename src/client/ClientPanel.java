@@ -25,7 +25,13 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -40,12 +46,18 @@ public class ClientPanel extends Parent {
     private TextArea textToSend;
     private Button sendBtn;
     private Button clearBtn;
+    private Button nuitBtn;
     private TextArea connected;
     private Text textMembers;
     private ListView<String> chatListView;
     private ListView<String> clientCoListView;
+    private Pane pane;
+    private int cpt = 0;
 
     public ClientPanel(Stage stage, Client client) {
+        
+        this.pane = new Pane();
+        this.pane.setPrefSize(600, 500);
         
         this.receivedText = new TextFlow();
         this.receivedText.setPrefSize(400, 250);
@@ -70,6 +82,31 @@ public class ClientPanel extends Parent {
         this.sendBtn.setLayoutX(470);
         this.sendBtn.setLayoutY(350);
         this.sendBtn.setPrefSize(100, 30);
+        
+        this.nuitBtn = new Button("Mode Nuit");
+        this.nuitBtn.setLayoutX(50);
+        this.nuitBtn.setLayoutY(300);
+        this.nuitBtn.setPrefSize(100, 30);
+        
+        this.nuitBtn.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+            public void handle(ActionEvent event) {
+              if (cpt==0)
+              {
+                pane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+                cpt++;
+                nuitBtn.setText("Mode jour");
+              }
+              else
+                  if (cpt==1)
+                  {
+                      pane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+                      cpt--;
+                      nuitBtn.setText("Mode nuit");
+                  }
+            }
+        });
+        
         Label buffer = new Label();
         this.sendBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -131,15 +168,18 @@ public class ClientPanel extends Parent {
         this.textMembers.setLayoutY(40);
 
 //        this.getChildren().add(chatListView);
-//        receivedText.getChildren().add(chatListView);
-        this.getChildren().add(scrollReceivedText);
-        this.getChildren().add(textToSend);
-        this.getChildren().add(sendBtn);
-        this.getChildren().add(clearBtn);
+//       receivedText.getChildren().add(chatListView);
+//        receivedText.getChildren().add(buffer);
+       pane.getChildren().addAll(receivedText,scrollReceivedText,textToSend,nuitBtn,sendBtn,clearBtn,chatListView,textMembers);
+       this.getChildren().add(pane);
+//        this.getChildren().add(scrollReceivedText);
+//        this.getChildren().add(textToSend);
+//        this.getChildren().add(sendBtn);
+//        this.getChildren().add(clearBtn);
 //        this.getChildren().add(connected);
-        this.getChildren().add(chatListView);
-        this.getChildren().add(textMembers);
-        receivedText.getChildren().add(buffer);
+//        this.getChildren().add(chatListView);
+//        this.getChildren().add(textMembers);
+
     }
 
 }
