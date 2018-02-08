@@ -60,10 +60,15 @@ public class ConnectedClient implements Runnable {
                 String message = in.readLine();
                 if (message.startsWith("?LOG")) {
                     this.setLogin(message.substring(4));
-                    System.out.println(message.substring(4));
-                    System.out.println(this.server.getClientsCo().toString());
-                    Collections.replaceAll(this.server.getClientsCo(), ""+id,message.substring(4));
-                    System.out.println(server.getClientsCo());
+                    Collections.replaceAll(this.server.getClientsCo(), "" + id, message.substring(4));
+
+                    for (ConnectedClient client : server.getClients()) {
+                        if (client.getId() == this.getId()) {
+                            client.sendMessage("Vous etes connecte");
+                        } else {
+                            client.sendMessage("Le client " + message.substring(4) + " vient de se connecter");
+                        }
+                    }
                     server.sendListeClientCo();
                 } else {
 

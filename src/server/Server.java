@@ -49,9 +49,6 @@ public class Server {
     public void addClient(ConnectedClient newClient) {
         this.clientsCo.add(newClient.getLogin());
         //Message d'information à tous les clients
-        for (ConnectedClient client : clients) {
-            client.sendMessage("Le client " + newClient.getLogin() + " vient de se connecter");
-        }
         System.out.println(newClient.getLogin()+" est co");
         this.clients.add(newClient);
         this.sendListeClientCo();
