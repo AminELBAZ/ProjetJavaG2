@@ -94,7 +94,7 @@ public class ConnectedClient implements Runnable {
     public void closeClient() throws IOException {
 
         try {
-
+            this.server.getClientsCo().remove(this.login);
             this.in.close();
             this.out.close();
             this.socket.close();

@@ -111,8 +111,8 @@ public class ClientPanel extends Parent {
             public void handle(ActionEvent event) {
 
                 buffer.setText(buffer.getText() + " " + textToSend.getText() + "\n");
-                client.chatLog.add(textToSend.getText());
-                client.getOut().println(textToSend.getText());
+                client.chatLog.add("Moi : "+textToSend.getText());
+                client.getOut().println(client.getLogin()+" : "+textToSend.getText());
                 client.getOut().flush();
 
                 textToSend.clear();
