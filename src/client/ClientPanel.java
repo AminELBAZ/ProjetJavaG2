@@ -57,12 +57,11 @@ public class ClientPanel extends Parent {
         stage.setResizable(false);
         this.pane = new Pane();
         this.pane.setPrefSize(600, 500);
-        
+
         this.receivedText = new TextFlow();
         this.receivedText.setPrefSize(400, 250);
-        
-        
-                                        // MESSAGES RECUS //
+
+        // MESSAGES RECUS //
         this.chatListView = new ListView<String>();
         this.chatListView.setItems(client.chatLog);
         this.chatListView.setPrefSize(400, 200);
@@ -73,7 +72,7 @@ public class ClientPanel extends Parent {
         this.scrollReceivedText.setLayoutX(50);
         this.scrollReceivedText.setLayoutY(50);
 
-                                    // MESSAGE A ENVOYER //
+        // MESSAGE A ENVOYER //
         this.textToSend = new TextArea();
         this.textToSend.setLayoutX(50);
         this.textToSend.setLayoutY(350);
@@ -82,12 +81,11 @@ public class ClientPanel extends Parent {
         this.textMembers = new Text("Connectés : ");
         this.textMembers.setLayoutX(470);
         this.textMembers.setLayoutY(40);
-        
+
         this.sendBtn = new Button("Envoyer");
         this.sendBtn.setLayoutX(470);
         this.sendBtn.setLayoutY(350);
         this.sendBtn.setPrefSize(100, 30);
-        
 
         this.clearBtn = new Button("Effacer");
         this.clearBtn.setLayoutX(470);
@@ -99,7 +97,14 @@ public class ClientPanel extends Parent {
                 textToSend.clear();
             }
         });
-        
+
+        // LISTE DES CLIENTS CONNECTES //
+        this.clientCoListView = new ListView<String>();
+        this.clientCoListView.setItems(client.listeClientsCo);
+        this.clientCoListView.setPrefSize(100, 250);
+        this.clientCoListView.setLayoutX(470);
+        this.clientCoListView.setLayoutY(50);
+
         Label buffer = new Label();
         this.sendBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -113,35 +118,28 @@ public class ClientPanel extends Parent {
                 textToSend.clear();
             }
         });
-                                       // MODE NUIT //
+        // MODE NUIT //
         this.nuitBtn = new Button("Mode Nuit");
         this.nuitBtn.setLayoutX(50);
         this.nuitBtn.setLayoutY(300);
         this.nuitBtn.setPrefSize(100, 30);
-        
-        
-        
+
         this.nuitBtn.setOnAction(new EventHandler<ActionEvent>() {
-         @Override
+            @Override
             public void handle(ActionEvent event) {
-              if (cpt==0)
-              {
-                textMembers.setFill(Color.WHITE);
-                pane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-                cpt++;
-                nuitBtn.setText("Mode jour");
-              }
-              else
-                  if (cpt==1)
-                  {                          
-                      textMembers.setFill(Color.BLACK);
-                      pane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-                      cpt--;
-                      nuitBtn.setText("Mode nuit");
-                  }
+                if (cpt == 0) {
+                    textMembers.setFill(Color.WHITE);
+                    pane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+                    cpt++;
+                    nuitBtn.setText("Mode jour");
+                } else if (cpt == 1) {
+                    textMembers.setFill(Color.BLACK);
+                    pane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+                    cpt--;
+                    nuitBtn.setText("Mode nuit");
+                }
             }
         });
-        
 
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -150,10 +148,8 @@ public class ClientPanel extends Parent {
             }
         });
 
-    
-
-       pane.getChildren().addAll(receivedText,scrollReceivedText,textToSend,nuitBtn,sendBtn,clearBtn,chatListView,textMembers);
-       this.getChildren().add(pane);
+        pane.getChildren().addAll(clientCoListView,receivedText, scrollReceivedText, textToSend, nuitBtn, sendBtn, clearBtn, chatListView, textMembers);
+        this.getChildren().add(pane);
     }
 
 }

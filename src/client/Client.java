@@ -28,6 +28,7 @@ public class Client {
     private BufferedReader in;
     private PrintWriter out;
     public ObservableList<String> chatLog;
+    public ObservableList<String> listeClientsCo;
 
     public String getLogin() {
         return login;
@@ -45,6 +46,7 @@ public class Client {
         this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
         this.out = new PrintWriter(this.socket.getOutputStream());
         chatLog = FXCollections.observableArrayList();
+        listeClientsCo = FXCollections.observableArrayList();
 
         ClientSend clientSend = new ClientSend(this.out);
         Thread threadClientSend = new Thread(clientSend);

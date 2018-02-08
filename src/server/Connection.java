@@ -28,11 +28,9 @@ public class Connection implements Runnable {
         while (true) {
             try {
                 Socket sockNewClient = serverSocket.accept();
-
                 ConnectedClient newClient = new ConnectedClient(server, sockNewClient);
-
                 server.addClient(newClient);
-
+                
                 Thread threadNewClient = new Thread(newClient);
                 threadNewClient.start();
             } catch (IOException e) {

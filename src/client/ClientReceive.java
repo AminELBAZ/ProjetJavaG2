@@ -30,11 +30,24 @@ public class ClientReceive implements Runnable {
         try {
             while (isActive) {
                 String message = in.readLine();
-                if (message != null && !message.equals("")) {
-                    System.out.print("\nMessage reçu : " + message);
-                    client.chatLog.add(message);
+                // SI ON A LENTETE POUR LA LISTE DES CLIENTS
+                if (message.startsWith("?CO")) {
+                    // ON RECUPERE LA LISTE DES CLIENTS SANS LENTETE
+                    message = message.substring(3);
+                    // ON SEPARE LES CLIENTS
+                    String[] split = message.split(";");
+                    for (int i = 0; i < split.length; i++) {
+                        // AJOUT DES CLIENTS A LA LISTE
+                        client.listeClientsCo.add(split[i]);
+                    }
+                    //SINON ON ENVOIE LE MESSAGE
                 } else {
-                    isActive = false;
+                    if (message != null && !message.equals("")) {
+                        System.out.print("\nMessage reçu : " + message);
+                        client.chatLog.add(message);
+                    } else {
+                        isActive = false;
+                    }
                 }
             }
             client.disconnectedServer();
