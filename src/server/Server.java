@@ -19,12 +19,10 @@ public class Server {
 
     private int port;
     private List<ConnectedClient> clients;
-    public ObservableList<String> clientsCo;
 
     public Server(int port) throws IOException {
         this.port = port;
         this.clients = new ArrayList<ConnectedClient>();
-//        this.clientsCo = FXCollections.observableArrayList();
 
         try {
             Thread threadConnection = new Thread(new Connection(this));
@@ -33,14 +31,6 @@ public class Server {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public ObservableList<String> getClientsCo() {
-        return clientsCo;
-    }
-
-    public void setClientsCo(ObservableList<String> clientsCo) {
-        this.clientsCo = clientsCo;
     }
 
     /**
