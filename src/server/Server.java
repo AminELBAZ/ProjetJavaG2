@@ -19,12 +19,13 @@ public class Server {
 
     private int port;
     private List<ConnectedClient> clients;
-    private String clientsCo;
+    private List<String> clientsCo;
 
     public Server(int port) throws IOException {
         this.port = port;
         this.clients = new ArrayList<ConnectedClient>();
-        this.clientsCo = "?CO;";
+        this.clientsCo = new ArrayList<String>();
+        this.clientsCo.add("?CO");
 
         try {
             Thread threadConnection = new Thread(new Connection(this));
@@ -45,10 +46,10 @@ public class Server {
         //Message d'information à tous les clients
         for (ConnectedClient client : clients) {
             client.sendMessage("Le client " + newClient.getLogin() + " vient de se connecter");
-            this.clientsCo += newClient.getLogin() + ";";
+            this.clientsCo.add(newClient.getLogin());
         }
         this.clients.add(newClient);
-//        this.clientsCo.add(newClient.getLogin());
+        this.sendListeClientCo();
     }
 
     /**
@@ -56,10 +57,10 @@ public class Server {
      *
      * @param newClient
      */
-    public void sendListeClientCo(ConnectedClient newClient) {
+    public void sendListeClientCo() {
         //Message d'information à tous les clients
         for (ConnectedClient client : clients) {
-            client.sendMessage(this.clientsCo);
+            client.sendMessage(clientsCo.toString());
         }
     }
 
