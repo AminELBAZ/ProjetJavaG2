@@ -54,7 +54,7 @@ public class ClientPanel extends Parent {
     private int cpt = 0;
 
     public ClientPanel(Stage stage, Client client) {
-        
+        stage.setResizable(false);
         this.pane = new Pane();
         this.pane.setPrefSize(600, 500);
         
