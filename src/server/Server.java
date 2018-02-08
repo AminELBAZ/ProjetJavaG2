@@ -36,6 +36,10 @@ public class Server {
         }
     }
 
+    public List<String> getClientsCo() {
+        return clientsCo;
+    }
+
     /**
      * Ajoute newClient à clients et envoie un message à tous les clients, pour
      * les prévenir d'une nouvelle connexion

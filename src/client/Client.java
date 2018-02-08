@@ -55,6 +55,9 @@ public class Client {
         ClientReceive clientReceive = new ClientReceive(this, this.in);
         Thread threadClientReceive = new Thread(clientReceive);
         threadClientReceive.start();
+        
+        clientSend.getOut().println("?LOG" + login);
+        clientSend.getOut().flush();
     }
 
     /**

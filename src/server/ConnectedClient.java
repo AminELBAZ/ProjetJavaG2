@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Collections;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -57,12 +58,21 @@ public class ConnectedClient implements Runnable {
             try {
 
                 String message = in.readLine();
-
-                if (message != null && !message.equals("")) {
-                    server.broadcastMessage(message, id);
+                if (message.startsWith("?LOG")) {
+                    this.setLogin(message.substring(4));
+                    System.out.println(message.substring(4));
+                    System.out.println(this.server.getClientsCo().toString());
+                    Collections.replaceAll(this.server.getClientsCo(), ""+id,message.substring(4));
+                    System.out.println(server.getClientsCo());
+                    server.sendListeClientCo();
                 } else {
-                    server.disconnectedClient(this);
-                    isActive = false;
+
+                    if (message != null && !message.equals("")) {
+                        server.broadcastMessage(message, id);
+                    } else {
+                        server.disconnectedClient(this);
+                        isActive = false;
+                    }
                 }
 
             } catch (IOException e) {
