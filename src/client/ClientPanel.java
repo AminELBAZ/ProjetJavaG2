@@ -15,7 +15,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-
 import server.*;
 import client.*;
 import java.io.IOException;
@@ -78,6 +77,10 @@ public class ClientPanel extends Parent {
         this.textToSend.setLayoutY(350);
         this.textToSend.setPrefSize(400, 100);
 
+        this.textMembers = new Text("Connectés : ");
+        this.textMembers.setLayoutX(470);
+        this.textMembers.setLayoutY(40);
+        
         this.sendBtn = new Button("Envoyer");
         this.sendBtn.setLayoutX(470);
         this.sendBtn.setLayoutY(350);
@@ -88,18 +91,22 @@ public class ClientPanel extends Parent {
         this.nuitBtn.setLayoutY(300);
         this.nuitBtn.setPrefSize(100, 30);
         
+        
+        
         this.nuitBtn.setOnAction(new EventHandler<ActionEvent>() {
          @Override
             public void handle(ActionEvent event) {
               if (cpt==0)
               {
+                textMembers.setFill(Color.WHITE);
                 pane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
                 cpt++;
                 nuitBtn.setText("Mode jour");
               }
               else
                   if (cpt==1)
-                  {
+                  {                          
+                      textMembers.setFill(Color.BLACK);
                       pane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
                       cpt--;
                       nuitBtn.setText("Mode nuit");
@@ -163,9 +170,7 @@ public class ClientPanel extends Parent {
             }
         });
 
-        this.textMembers = new Text("Connectés : ");
-        this.textMembers.setLayoutX(470);
-        this.textMembers.setLayoutY(40);
+    
 
 //        this.getChildren().add(chatListView);
 //       receivedText.getChildren().add(chatListView);
