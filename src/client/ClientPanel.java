@@ -49,9 +49,6 @@ public class ClientPanel extends Parent {
 
     public ClientPanel(Stage stage, Client client) {
         
-        Thread threadClient = new Thread(client);
-        threadClient.start();
-
         this.receivedText = new TextFlow();
         this.receivedText.setPrefSize(400, 250);
 

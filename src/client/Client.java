@@ -19,7 +19,7 @@ import javafx.collections.ObservableList;
  *
  * @author aelbaz
  */
-public class Client implements Runnable {
+public class Client {
 
     private String address;
     private String login;
@@ -70,33 +70,6 @@ public class Client implements Runnable {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    @Override
-    public void run() {
-        /* Infinite loop to update the chat log from the server */
-        while (true) {
-            try {
-                final String inputFromServer = this.in.readLine();
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        chatLog.add(inputFromServer);
-                    }
-                });
-
-            } catch (SocketException e) {
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        chatLog.add("Error in server");
-                    }
-
-                });
-                break;
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
     }
 
