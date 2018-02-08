@@ -47,11 +47,12 @@ public class Server {
      * @param newClient
      */
     public void addClient(ConnectedClient newClient) {
+        this.clientsCo.add(newClient.getLogin());
         //Message d'information à tous les clients
         for (ConnectedClient client : clients) {
             client.sendMessage("Le client " + newClient.getLogin() + " vient de se connecter");
-            this.clientsCo.add(newClient.getLogin());
         }
+        System.out.println(newClient.getLogin()+" est co");
         this.clients.add(newClient);
         this.sendListeClientCo();
     }
