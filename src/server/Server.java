@@ -24,7 +24,7 @@ public class Server {
     public Server(int port) throws IOException {
         this.port = port;
         this.clients = new ArrayList<ConnectedClient>();
-        this.clientsCo = FXCollections.observableArrayList();
+//        this.clientsCo = FXCollections.observableArrayList();
 
         try {
             Thread threadConnection = new Thread(new Connection(this));
@@ -56,7 +56,7 @@ public class Server {
             
         }
         this.clients.add(newClient);
-        this.clientsCo.add(newClient.getLogin());
+//        this.clientsCo.add(newClient.getLogin());
     }
 
     /**
