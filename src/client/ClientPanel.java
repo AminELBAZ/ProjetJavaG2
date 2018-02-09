@@ -26,6 +26,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -109,15 +111,20 @@ public class ClientPanel extends Parent {
         this.sendBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
-                buffer.setText(buffer.getText() + " " + textToSend.getText() + "\n");
-                client.chatLog.add("Moi : "+textToSend.getText());
-                client.getOut().println(client.getLogin()+" : "+textToSend.getText());
-                client.getOut().flush();
-
-                textToSend.clear();
+                sendMessage(buffer, client);
             }
         });
+        //Envoie du message avec la touche enter
+        this.textToSend.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    sendMessage(buffer, client);
+                    ke.consume();
+                }
+            }
+        });
+
         // MODE NUIT //
         this.nuitBtn = new Button("Mode Nuit");
         this.nuitBtn.setLayoutX(50);
@@ -147,9 +154,36 @@ public class ClientPanel extends Parent {
                 System.exit(0);
             }
         });
-
-        pane.getChildren().addAll(clientCoListView,receivedText, scrollReceivedText, textToSend, nuitBtn, sendBtn, clearBtn, chatListView, textMembers);
+        
+        //Envoie du message par enter
+        this.textToSend.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER) && !ke.getCode().equals(KeyCode.SHIFT)) {
+                    sendMessage(buffer,client);
+                    ke.consume();
+                }
+            }
+        });
+        
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                textToSend.requestFocus();
+            }
+        });
+        
+        pane.getChildren().addAll(clientCoListView, receivedText, scrollReceivedText, textToSend, nuitBtn, sendBtn, clearBtn, chatListView, textMembers);
         this.getChildren().add(pane);
+    }
+
+    public void sendMessage(Label buffer, Client client) {
+        buffer.setText(buffer.getText() + " " + textToSend.getText() + "\n");
+        client.chatLog.add("Moi : " + textToSend.getText());
+        client.getOut().println(client.getLogin() + " : " + textToSend.getText());
+        client.getOut().flush();
+
+        textToSend.clear();
     }
 
 }

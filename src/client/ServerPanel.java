@@ -19,8 +19,12 @@ import client.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -53,10 +57,19 @@ public class ServerPanel extends Parent {
         this.titre.setLayoutX(100);
         this.titre.setLayoutY(150);
 
-        this.port = new TextArea();
+        this.port = new TextArea("1024");
         this.port.setLayoutX(300);
         this.port.setLayoutY(125);
         this.port.setPrefSize(100, 50);
+        this.port.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                if (newPropertyValue) {
+                    port.end();
+                }
+            }
+
+        });
 
         this.erreur = new Text("Numéro de port invalide, vérifiez votre saisie.");
         this.erreur.setLayoutX(100);
@@ -69,10 +82,21 @@ public class ServerPanel extends Parent {
         this.address.setLayoutX(100);
         this.address.setLayoutY(250);
 
-        this.inputAddress = new TextArea();
+        this.inputAddress = new TextArea("127.0.0.1");
+//        this.inputAddress.setPromptText();
         this.inputAddress.setLayoutX(300);
         this.inputAddress.setLayoutY(225);
         this.inputAddress.setPrefSize(100, 50);
+        //Selectionne tout le text une fois focus
+        this.inputAddress.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                if (newPropertyValue) {
+                    inputAddress.selectAll();
+                }
+            }
+
+        });
 
         this.valid = new Button("Valider");
         this.valid.setLayoutX(280);
@@ -80,48 +104,64 @@ public class ServerPanel extends Parent {
         this.valid.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
-                String adresseServer = inputAddress.getText();
-                // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
-                if (estUnEntierValide(port.getText())) {
-                    if (inputPseudo.getText().equals("")) {
-                        erreur.setText("Veuillez saisir un pseudo !");
-                        erreur.setLayoutX(100);
-                        erreur.setLayoutY(25);
-                        erreur.setVisible(true);
-                        return;
-                    }
-                    if (adresseServer.equals("")) {
-                        erreur.setText("Veuillez saisir l'adresse du serveur !");
-                        erreur.setLayoutX(100);
-                        erreur.setLayoutY(215);
-                        erreur.setVisible(true);
-                        return;
-                    }
-                    stage.close();
-                    //Création du client
-                    Client c = null;
-                    try {
-                        c = new Client(adresseServer, Integer.parseInt(port.getText()), inputPseudo.getText());
-                    } catch (IOException ex) {
-                        Logger.getLogger(ServerPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    //Création du stage
-                    Stage clientStage = new Stage();
-                    ClientPanel clientPanel = new ClientPanel(clientStage, c);
-                    Group root = new Group();
-                    root.getChildren().add(clientPanel);
-                    Scene scene = new Scene(root, 600, 500);
-                    clientStage.setTitle("Mon Chat");
-                    clientStage.setScene(scene);
-                    clientStage.show();
-                    // Sinon on affiche un message d'erreur
-                } else {
-                    erreur.setVisible(true);
-                }
+                validForm(stage);
             }
         }
         );
+
+        //Validation par la touche entrer
+        this.inputPseudo.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    validForm(stage);
+                    ke.consume();
+                }
+                if (ke.getCode().equals(KeyCode.TAB)) {
+                    port.requestFocus();
+                    ke.consume();
+                }
+            }
+        });
+        //Validation par la touche entrer
+        this.port.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    validForm(stage);
+                    ke.consume();
+                }
+                if (ke.getCode().equals(KeyCode.TAB)) {
+                    inputAddress.requestFocus();
+                    ke.consume();
+                }
+            }
+        });
+        //Validation par la touche entrer
+        this.inputAddress.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    validForm(stage);
+                    ke.consume();
+                }
+                if (ke.getCode().equals(KeyCode.TAB)) {
+                    valid.requestFocus();
+                    ke.consume();
+                }
+            }
+        });
+        //Validation par la touche entrer
+        this.valid.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    validForm(stage);
+                    ke.consume();
+                }
+            }
+        });
+
         this.getChildren().add(this.inputPseudo);
         this.getChildren().add(this.pseudo);
         this.getChildren().add(this.titre);
@@ -151,6 +191,51 @@ public class ServerPanel extends Parent {
         }
 
         return true;
+    }
+
+    /**
+     * Valide le formulaire et vérifie si tout est ok
+     */
+    public void validForm(Stage stage) {
+
+        String adresseServer = inputAddress.getText();
+        // Si la valeur saisie est un entier entre 1024 et 49151 on lance le serveur correspondant
+        if (estUnEntierValide(port.getText())) {
+            if (inputPseudo.getText().equals("")) {
+                erreur.setText("Veuillez saisir un pseudo !");
+                erreur.setLayoutX(100);
+                erreur.setLayoutY(25);
+                erreur.setVisible(true);
+                return;
+            }
+            if (adresseServer.equals("")) {
+                erreur.setText("Veuillez saisir l'adresse du serveur !");
+                erreur.setLayoutX(100);
+                erreur.setLayoutY(215);
+                erreur.setVisible(true);
+                return;
+            }
+            stage.close();
+            //Création du client
+            Client c = null;
+            try {
+                c = new Client(adresseServer, Integer.parseInt(port.getText()), inputPseudo.getText());
+            } catch (IOException ex) {
+                Logger.getLogger(ServerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //Création du stage
+            Stage clientStage = new Stage();
+            ClientPanel clientPanel = new ClientPanel(clientStage, c);
+            Group root = new Group();
+            root.getChildren().add(clientPanel);
+            Scene scene = new Scene(root, 600, 500);
+            clientStage.setTitle("Mon Chat");
+            clientStage.setScene(scene);
+            clientStage.show();
+            // Sinon on affiche un message d'erreur
+        } else {
+            erreur.setVisible(true);
+        }
     }
 
 }
